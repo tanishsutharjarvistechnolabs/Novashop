@@ -1,0 +1,155 @@
+trigger: none
+
+pr: none
+
+name: storefront-prod-$(Date:yyyyMMdd).$(Rev:r)
+
+pool:
+  name: novashop_pool
+
+variables:
+  AWS_REGION: "af-south-1"
+  AWS_ACCOUNT_ID: "139372544215"
+  AWS_PAGER: ""
+  NODE_VERSION: "20.x"
+  S3_BUCKET: "novashop-prod-storefront-3e029f"
+  CLOUDFRONT_DISTRIBUTION_ID: "E1A42RQVTCQRWF"
+  STATIC_OUTPUT_DIR: ".next-production"
+  DEPLOY_OUTPUT_DIR: ".deploy-static"
+
+stages:
+  - stage: Deploy_Storefront_Prod
+    displayName: "Build and Deploy Storefront (Prod)"
+    jobs:
+      - job: BuildAndDeploy
+        timeoutInMinutes: 30
+        workspace:
+          clean: all
+        steps:
+          - checkout: self
+
+          - script: |
+              set -euo pipefail
+              echo "Agent.Name=$(Agent.Name)"
+              echo "Agent.MachineName=$(Agent.MachineName)"
+              echo "Agent.OS=$(Agent.OS)"
+            displayName: "Print agent diagnostics"
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "$(NODE_VERSION)"
+            displayName: "Use Node.js $(NODE_VERSION)"
+
+          - script: |
+              set -euo pipefail
+              npm ci
+            displayName: "Install dependencies"
+
+          - script: |
+              set -euo pipefail
+              rm -rf "$STATIC_OUTPUT_DIR"
+              rm -rf "$DEPLOY_OUTPUT_DIR"
+              npm run build:prod
+              test -d "$STATIC_OUTPUT_DIR"
+              test -f "$STATIC_OUTPUT_DIR/server/app/index.html"
+
+              mkdir -p "$DEPLOY_OUTPUT_DIR/_next/static"
+              cp -R "$STATIC_OUTPUT_DIR/static/." "$DEPLOY_OUTPUT_DIR/_next/static/"
+
+              # Copy all prerendered HTML routes so direct URL access works (e.g. /cart -> cart.html).
+              while IFS= read -r -d '' html_file; do
+                rel_path="${html_file#"$STATIC_OUTPUT_DIR/server/app/"}"
+                mkdir -p "$DEPLOY_OUTPUT_DIR/$(dirname "$rel_path")"
+                cp "$html_file" "$DEPLOY_OUTPUT_DIR/$rel_path"
+              done < <(find "$STATIC_OUTPUT_DIR/server/app" -type f -name "*.html" -print0)
+
+              # Preserve public assets at root paths.
+              if [ -d "public" ]; then
+                cp -R public/. "$DEPLOY_OUTPUT_DIR/"
+              fi
+
+              # Next.js app build stores icon/favicon route payloads with .body suffix.
+              if [ -f "$STATIC_OUTPUT_DIR/server/app/favicon.ico.body" ]; then
+                cp "$STATIC_OUTPUT_DIR/server/app/favicon.ico.body" "$DEPLOY_OUTPUT_DIR/favicon.ico"
+              fi
+              if [ -f "$STATIC_OUTPUT_DIR/server/app/icon.png.body" ]; then
+                cp "$STATIC_OUTPUT_DIR/server/app/icon.png.body" "$DEPLOY_OUTPUT_DIR/icon.png"
+              fi
+
+              ROUTE_HTML_COUNT=$(find "$DEPLOY_OUTPUT_DIR" -type f -name "*.html" | wc -l)
+              echo "Copied $ROUTE_HTML_COUNT HTML files into deploy output."
+              test -f "$DEPLOY_OUTPUT_DIR/index.html"
+              test -d "$DEPLOY_OUTPUT_DIR/_next/static"
+              test "$ROUTE_HTML_COUNT" -ge 1
+            displayName: "Build static site (Next.js export)"
+
+          - script: |
+              set -euo pipefail
+              unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_SECURITY_TOKEN AWS_PROFILE AWS_DEFAULT_PROFILE AWS_ROLE_ARN AWS_WEB_IDENTITY_TOKEN_FILE AWS_CONTAINER_CREDENTIALS_FULL_URI AWS_CONTAINER_CREDENTIALS_RELATIVE_URI AWS_CONTAINER_AUTHORIZATION_TOKEN
+              export AWS_CONFIG_FILE=/dev/null
+              export AWS_SHARED_CREDENTIALS_FILE=/dev/null
+              export AWS_EC2_METADATA_DISABLED=false
+
+              METADATA_TOKEN=$(curl -sS --fail --connect-timeout 3 --max-time 5 -X PUT \
+                "http://169.254.169.254/latest/api/token" \
+                -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+              ROLE_NAME=$(curl -sS --fail --connect-timeout 3 --max-time 5 \
+                -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+                "http://169.254.169.254/latest/meta-data/iam/security-credentials/")
+              CRED_JSON=$(curl -sS --fail --connect-timeout 3 --max-time 5 \
+                -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+                "http://169.254.169.254/latest/meta-data/iam/security-credentials/${ROLE_NAME}")
+              AWS_ACCESS_KEY_ID=$(printf '%s' "$CRED_JSON" | awk -F'"' '/AccessKeyId/{print $4}')
+              AWS_SECRET_ACCESS_KEY=$(printf '%s' "$CRED_JSON" | awk -F'"' '/SecretAccessKey/{print $4}')
+              AWS_SESSION_TOKEN=$(printf '%s' "$CRED_JSON" | awk -F'"' '/Token/{print $4}')
+              if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$AWS_SESSION_TOKEN" ]; then
+                echo "Unable to parse EC2 instance profile credentials from IMDS." >&2
+                exit 1
+              fi
+              export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
+
+              aws configure list
+              CALLER_ACCOUNT=$(aws sts get-caller-identity --region "$AWS_REGION" --query Account --output text)
+              if [ "$CALLER_ACCOUNT" != "$AWS_ACCOUNT_ID" ]; then
+                echo "Expected account $AWS_ACCOUNT_ID but authenticated to $CALLER_ACCOUNT" >&2
+                exit 1
+              fi
+              aws s3 sync "$DEPLOY_OUTPUT_DIR" "s3://$S3_BUCKET" --delete --region "$AWS_REGION"
+            displayName: "Upload static site to S3"
+
+          - script: |
+              set -euo pipefail
+              unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_SECURITY_TOKEN AWS_PROFILE AWS_DEFAULT_PROFILE AWS_ROLE_ARN AWS_WEB_IDENTITY_TOKEN_FILE AWS_CONTAINER_CREDENTIALS_FULL_URI AWS_CONTAINER_CREDENTIALS_RELATIVE_URI AWS_CONTAINER_AUTHORIZATION_TOKEN
+              export AWS_CONFIG_FILE=/dev/null
+              export AWS_SHARED_CREDENTIALS_FILE=/dev/null
+              export AWS_EC2_METADATA_DISABLED=false
+
+              METADATA_TOKEN=$(curl -sS --fail --connect-timeout 3 --max-time 5 -X PUT \
+                "http://169.254.169.254/latest/api/token" \
+                -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+              ROLE_NAME=$(curl -sS --fail --connect-timeout 3 --max-time 5 \
+                -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+                "http://169.254.169.254/latest/meta-data/iam/security-credentials/")
+              CRED_JSON=$(curl -sS --fail --connect-timeout 3 --max-time 5 \
+                -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+                "http://169.254.169.254/latest/meta-data/iam/security-credentials/${ROLE_NAME}")
+              AWS_ACCESS_KEY_ID=$(printf '%s' "$CRED_JSON" | awk -F'"' '/AccessKeyId/{print $4}')
+              AWS_SECRET_ACCESS_KEY=$(printf '%s' "$CRED_JSON" | awk -F'"' '/SecretAccessKey/{print $4}')
+              AWS_SESSION_TOKEN=$(printf '%s' "$CRED_JSON" | awk -F'"' '/Token/{print $4}')
+              if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$AWS_SESSION_TOKEN" ]; then
+                echo "Unable to parse EC2 instance profile credentials from IMDS." >&2
+                exit 1
+              fi
+              export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
+
+              aws configure list
+              CALLER_ACCOUNT=$(aws sts get-caller-identity --region "$AWS_REGION" --query Account --output text)
+              if [ "$CALLER_ACCOUNT" != "$AWS_ACCOUNT_ID" ]; then
+                echo "Expected account $AWS_ACCOUNT_ID but authenticated to $CALLER_ACCOUNT" >&2
+                exit 1
+              fi
+              aws cloudfront create-invalidation \
+                --distribution-id "$CLOUDFRONT_DISTRIBUTION_ID" \
+                --paths "/*" \
+                --region "$AWS_REGION"
+            displayName: "Invalidate CloudFront cache"

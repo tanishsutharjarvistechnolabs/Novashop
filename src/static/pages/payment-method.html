@@ -1,0 +1,185 @@
+<section class="innerBannerWrapper">
+        <div class="bannerTxt">
+            <h2 class="text-uppercase fw-600 color-white">Your cart & checkout</h2>
+        </div>
+        <img src="/assets/images/inner-banner-img1.jpg" alt="">
+    </section>
+
+    <section class="paymentMethodWrapper py-100">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="grayBox deliveryCollectionWrapper">
+                        <h2>DELIVERY & COLLECTION SELECTION</h2>
+                        <div class="deliveryCollectionBody">
+                            <div id="opt-delivery" class="delivery-option selected"
+                                onclick="selectDelivery('delivery')">
+                                <div class="radio-circle"></div>
+                                <div class="option-content">
+                                    <div class="option-title">Delivery to address</div>
+                                    <div class="option-desc">Estimated 3-5 business days</div>
+                                </div>
+                                <div class="option-badge badge-cost">+ KES 500</div>
+                            </div>
+
+                            <div id="opt-pickup" class="delivery-option" onclick="selectDelivery('pickup')">
+                                <div class="radio-circle"></div>
+                                <div class="option-content">
+                                    <div class="option-title">Self-collection (warehouse pickup)</div>
+                                    <div class="option-desc">Ready within 24 hrs · Industrial Area, Nairobi</div>
+                                </div>
+                                <div class="option-badge badge-free">FREE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="grayBox paymentSelectWrapper">
+                        <h2>DELIVERY & COLLECTION SELECTION</h2>
+                        <div class="paymentSelectBody">
+                            <div class="pay-methods">
+                                <div id="pay-collection" class="pay-option selected"
+                                    onclick="selectPayment('collection')">
+                                    <div class="pay-option-title">Pay on collection</div>
+                                    <div class="pay-option-desc">Cash or card at pickup</div>
+                                </div>
+                                <div id="pay-online" class="pay-option" onclick="selectPayment('online')">
+                                    <div class="pay-option-title">Pay online</div>
+                                    <div class="pay-option-desc">Card, M-Pesa or bank</div>
+                                </div>
+                            </div>
+
+                            <div class="address-card">
+                                <div class="address-label">Delivery Address</div>
+                                <div class="address-name">Daniel Mwangi</div>
+                                <div class="address-line">House No. 24, Kileleshwa Estate</div>
+                                <div class="address-line">Oloitoktok Road, P.O. Box 12345-00100</div>
+                                <div class="address-line">Nairobi, Kenya</div>
+                                <div class="address-phone">
+                                    <label>Mobile Number :</label>
+                                    <span>+91 1234 5678 90</span>
+                                </div>
+                            </div>
+
+                            <div class="address-card">
+                                <div class="address-label">Warehouse Address</div>
+                                <div class="address-name">Sunrise Traders Ltd.</div>
+                                <div class="address-line">Unit 5, Industrial Area,</div>
+                                <div class="address-line">Enterprise Road, P.O. Box 67890-00200</div>
+                                <div class="address-line">Nairobi, Kenya</div>
+                                <div class="map-line"><i class="fa-classic fa-solid fa-location-dot"></i> <span
+                                        class="color-blue">View Warehouse Location on Map</span></div>
+                                <div class="address-phone">
+                                    <label>Mobile Number :</label>
+                                    <span>+91 1234 5678 90</span>
+                                </div>
+                            </div>
+
+                            <div class="address-card">
+                                <div class="address-label">Card details</div>
+                                <div class="row">
+                                    <div class="col-12 mb-3"><input class="form-control" type="text" placeholder="Enter Card number"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3"><input class="form-control" type="text" placeholder="Enter Expiry"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3"><input class="form-control" type="text" placeholder="Enter CVV"></div>
+                                </div>
+                            </div>
+
+                            <div class="address-card">
+                                <div class="address-label">Your details</div>
+                                <div class="row">
+                                    <div class="col-12 mb-3"><input class="form-control error" type="text" placeholder="Name"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3"><input class="form-control" type="text" placeholder="Mobile"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3"><input class="form-control" type="text" placeholder="Email Address"></div>
+                                    <div class="col-12 mb-3"><input class="form-control" type="text" placeholder="Street address"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3"><input class="form-control" type="text" placeholder="County / region"></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Country</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="/" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#OrderPlacedModal"><span>Place order</span></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="supportWrapper py-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center pb-100">
+                        <p class="sub-title">
+                            <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 0H4L2 12H0L2 0Z" fill="#245BA9" fill-opacity="0.3"/>
+                                <path d="M7 0H12L10 12H5L7 0Z" fill="#245BA9" fill-opacity="0.6"/>
+                                <path d="M14 0H22L21 12H13L14 0Z" fill="#245BA9"/>
+                            </svg>
+                            our products
+                            <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 0H4L2 12H0L2 0Z" fill="#245BA9" fill-opacity="0.3"/>
+                                <path d="M7 0H12L10 12H5L7 0Z" fill="#245BA9" fill-opacity="0.6"/>
+                                <path d="M14 0H22L21 12H13L14 0Z" fill="#245BA9"/>
+                            </svg>
+                        </p>
+                        <h2 class="title fs-60 mb-3">Lorem Ipsum is simply dummy text</h2>
+                        <p class="fs-18 fw-500">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                    <div class="support-item">
+                        <div class="support-icon"><i class="icon-messages"></i></div>
+                        <div class="support-content">
+                            <h6 class="support-title">
+                                <span class="color-blue text-uppercase">01</span>
+                                <span class="text-uppercase">Customer<br/> Support</span>
+                            </h6>
+                            <p class="support-description">
+                                We really care about you and your website as much as you do. Purchasing Porto or any other theme from us you get 100% free support.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                    <div class="support-item">
+                        <div class="support-icon"><i class="icon-card-pos"></i></div>
+                        <div class="support-content">
+                            <h6 class="support-title">
+                                <span class="color-blue text-uppercase">02</span>
+                                <span class="text-uppercase">Fully<br/> Customizable</span>
+                            </h6>
+                            <p class="support-description">
+                                With Porto you can customize the layout, colors and styles within only a few minutes. Start creating an amazing website right now!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                    <div class="support-item">
+                        <div class="support-icon"><i class="icon-user"></i></div>
+                        <div class="support-content">
+                            <h6 class="support-title">
+                                <span class="color-blue text-uppercase">03</span>
+                                <span class="text-uppercase">Powerful<br/> Admin</span>
+                            </h6>
+                            <p class="support-description">
+                                Porto has very powerful admin features to help customer to build their own shop in minutes without any special skills in web development.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
