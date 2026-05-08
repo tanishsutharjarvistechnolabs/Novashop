@@ -27,10 +27,10 @@ export function CartPageContent({ data }: CartPageContentProps) {
         title={data.banner.title}
         imageSrc={data.banner.imageSrc}
         imageAlt={data.banner.imageAlt}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Cart" }
-        ]}
+        // breadcrumbs={[
+        //   { label: "Home", href: "/" },
+        //   { label: "Cart" }
+        // ]}
       />
 
       <section className="cartWrapper py-100">
@@ -177,7 +177,7 @@ export function CartPageContent({ data }: CartPageContentProps) {
         </div>
       </div>
 
-      <SupportSection />
+      {/* <SupportSection /> */}
     </>
   );
 }

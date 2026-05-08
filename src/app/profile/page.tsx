@@ -284,7 +284,7 @@ export default function ProfilePage() {
         title={profilePageData.banner.title}
         imageSrc={profilePageData.banner.imageSrc}
         imageAlt={profilePageData.banner.imageAlt}
-        breadcrumbs={breadcrumbs}
+        // breadcrumbs={breadcrumbs}
       />
 
       <section className="paymentMethodWrapper py-100">
@@ -502,7 +502,7 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <SupportSection />
+      {/* <SupportSection /> */}
     </>
   );
 }

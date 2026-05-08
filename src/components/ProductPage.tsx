@@ -52,10 +52,10 @@ export default function ProductPage() {
         title={productPageData.banner.title}
         imageSrc={productPageData.banner.imageSrc}
         imageAlt={productPageData.banner.imageAlt}
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Products" },
-        ]}
+        // breadcrumbs={[
+        //   { label: "Home", href: "/" },
+        //   { label: "Products" },
+        // ]}
       />
 
       <section className="shop-category-page pt-100">
@@ -159,7 +159,7 @@ export default function ProductPage() {
         </div>
       </section >
 
-      <SupportSection />
+      {/* <SupportSection /> */}
     </>
   );
 }

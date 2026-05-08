@@ -1,29 +1,104 @@
 "use client";
 
-import { SectionBadge } from "@/components/SectionBadge";
-import { SupportSection } from "@/components/SupportSection";
+import { APIToGetProductsByCategory } from "@/lib/api/api.service";
 import { handleAddToCart } from "@/lib/shared";
 import { formatKes, homePageData } from "@/lib/storefront-data";
 import { useCategoryStore } from "@/stores/categories-store";
 import { useProductStore } from "@/stores/product-store";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
-export default function Home() {
+function HomeContent() {
 
   const { categories: productCategories } = useCategoryStore()
-  const { products } = useProductStore()
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const { products, fetchAllProduct } = useProductStore()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const categoryIdParam = Number(searchParams.get("categoryId"));
+  const selectedCategoryId = categoryIdParam || null;
+  const [categoryProducts, setCategoryProducts] = useState<typeof products>([]);
+  const [isCategoryProductsLoading, setIsCategoryProductsLoading] = useState(false);
   const selectedCategory = productCategories.find(
     (category) => category.productCategoryID === selectedCategoryId
   );
-  const visibleProducts = selectedCategoryId
-    ? products.filter((product) => product.productCategoryID === selectedCategoryId)
-    : products;
+  const visibleProducts = selectedCategoryId ? categoryProducts : products;
   const featuredProducts = visibleProducts.slice(0, 8);
+
+  useEffect(() => {
+    if (!selectedCategoryId && products.length === 0) {
+      fetchAllProduct();
+    }
+  }, [fetchAllProduct, products.length, selectedCategoryId]);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const fetchProductsByCategory = async () => {
+      if (!selectedCategoryId) {
+        setCategoryProducts([]);
+        return;
+      }
+
+      setIsCategoryProductsLoading(true);
+      try {
+        const res = await APIToGetProductsByCategory(selectedCategoryId);
+        if (!isActive || !res || !res.data || res.status !== 200) return;
+
+        const resData = res.data;
+        if (resData && resData.status && resData.statusCode === 200 && resData.data) {
+          setCategoryProducts(resData.data);
+        }
+      } catch (error) {
+        console.error("Error fetching products for category", selectedCategoryId, error);
+        if (isActive) {
+          setCategoryProducts([]);
+        }
+      } finally {
+        if (isActive) {
+          setIsCategoryProductsLoading(false);
+        }
+      }
+    };
+
+    fetchProductsByCategory();
+
+    return () => {
+      isActive = false;
+    };
+  }, [selectedCategoryId]);
+
+  const handleCategoryChange = (categoryId: number | null) => {
+    router.push(categoryId ? `/?categoryId=${categoryId}` : "/");
+  };
 
   return (
     <>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <div className="home-category-nav" aria-label="Product categories">
+              <button
+                type="button"
+                className={selectedCategoryId === null ? "active" : ""}
+                onClick={() => handleCategoryChange(null)}
+              >
+                All Categories
+              </button>
+              {productCategories.map((category) => (
+                <button
+                  key={category.productCategoryID}
+                  type="button"
+                  className={selectedCategoryId === category.productCategoryID ? "active" : ""}
+                  onClick={() => handleCategoryChange(category.productCategoryID)}
+                >
+                  {category.productCategoryName}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div >
       <section className="bannerWrapper">
         <div className="container">
           <div className="row">
@@ -51,38 +126,24 @@ export default function Home() {
         <div className="container">
           <div className="shop-section-header">
             <div>
-              <SectionBadge>{homePageData.servicesIntro.eyebrow}</SectionBadge>
+              {/* <SectionBadge>{homePageData.servicesIntro.eyebrow}</SectionBadge> */}
               <h2 className="title fs-60 mb-3">
                 {selectedCategory ? selectedCategory.productCategoryName : homePageData.servicesIntro.title}
               </h2>
-              <p className="fs-18 fw-500">{homePageData.servicesIntro.description}</p>
+              {/* <p className="fs-18 fw-500">{homePageData.servicesIntro.description}</p> */}
             </div>
             {/* <Link href="/product" className="btn btn-blue">
               <span>View All Products</span> <i className="icon-dot fs-10"></i>
             </Link> */}
           </div>
 
-          <div className="home-category-nav" aria-label="Product categories">
-            <button
-              type="button"
-              className={selectedCategoryId === null ? "active" : ""}
-              onClick={() => setSelectedCategoryId(null)}
-            >
-              All Categories
-            </button>
-            {productCategories.map((category) => (
-              <button
-                key={category.productCategoryID}
-                type="button"
-                className={selectedCategoryId === category.productCategoryID ? "active" : ""}
-                onClick={() => setSelectedCategoryId(category.productCategoryID)}
-              >
-                {category.productCategoryName}
-              </button>
-            ))}
-          </div>
 
-          {!featuredProducts || featuredProducts.length === 0 ? (
+
+          {isCategoryProductsLoading ? (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "30vh" }}>
+              <p className="text-muted fs-4 fw-500 m-0">Loading products...</p>
+            </div>
+          ) : !featuredProducts || featuredProducts.length === 0 ? (
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "30vh" }}>
               <p className="text-muted fs-4 fw-500 m-0">No products available</p>
             </div>
@@ -169,7 +230,15 @@ export default function Home() {
         </div>
       </section> */}
 
-      <SupportSection />
+      {/* <SupportSection /> */}
     </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

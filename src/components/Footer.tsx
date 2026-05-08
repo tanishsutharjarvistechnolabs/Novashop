@@ -49,7 +49,10 @@ export function Footer() {
                   ) : (
                     productCategories.slice(0, 5).map((category) => (
                       <li key={category.productCategoryID}>
-                        <Link href={`/product?categoryId=${category.productCategoryID}`}>
+                        <Link href={{
+                          pathname: "/",
+                          query: { categoryId: category.productCategoryID },
+                        }}>
                           {category.productCategoryName}
                         </Link>
                       </li>
@@ -58,7 +61,7 @@ export function Footer() {
                 </ul>
               </div>
 
-              <div className="boxHldr">
+              {/* <div className="boxHldr">
                 <ul className="prolink">
                   <li className="title">Products</li>
                   {products.length === 0 ? (
@@ -73,7 +76,7 @@ export function Footer() {
                     ))
                   )}
                 </ul>
-              </div>
+              </div> */}
 
               <div className="boxHldr">
                 <ul className="prolink">
@@ -103,6 +106,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </footer >
   );
 }

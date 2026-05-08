@@ -662,7 +662,7 @@ export function CheckoutPageContent({ data }: CheckoutPageContentProps) {
         title={data.banner.title}
         imageSrc={data.banner.imageSrc}
         imageAlt={data.banner.imageAlt}
-        breadcrumbs={breadcrumbs}
+        // breadcrumbs={breadcrumbs}
       />
 
       <section className="paymentMethodWrapper py-100">
@@ -1329,7 +1329,7 @@ export function CheckoutPageContent({ data }: CheckoutPageContentProps) {
           data-bs-target="#OrderFailedModal"
         />
       </section >
-      <SupportSection />
+      {/* <SupportSection /> */}
     </>
   );
 }

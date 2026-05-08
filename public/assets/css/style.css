@@ -1473,7 +1473,7 @@ footer {
 footer .linkWrapper {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px
 }
 
@@ -1666,7 +1666,7 @@ footer .copyRightMain .PolicyMain a:hover {
 
 .bannerWrapper .hero-slider {
     position: relative;
-    margin: 30px 0 0 0;
+    margin: 24px 0 0 0;
 }
 
 .bannerWrapper .hero-slider .slick-slide {

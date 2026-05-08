@@ -115,7 +115,7 @@ export function Header() {
                     ) : (
                       productCategories.map((category) => (
                         <Link key={category.productCategoryID} href={{
-                          pathname: "/product",
+                          pathname: "/",
                           query: { categoryId: category.productCategoryID },
                         }} className="dropdown-link">
                           {category.productCategoryName}

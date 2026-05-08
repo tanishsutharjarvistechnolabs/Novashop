@@ -123,7 +123,7 @@ export const homePageData: HomePageData = {
   ],
   servicesIntro: {
     eyebrow: "our products",
-    title: "Our Products",
+    title: "All Products",
     description:
       "Everything your front-of-house and back-of-house teams need, in one place. Shop by category or browse the full range of Novashop-stocked POS hardware below.",
     imageSrc: "/assets/images/product-full.png",

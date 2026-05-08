@@ -1,12 +1,11 @@
 "use client";
 
-import { InnerBanner } from "@/components/InnerBanner";
 import { QuantitySelector } from "@/components/QuantitySelector";
-import { SupportSection } from "@/components/SupportSection";
 import { Product } from "@/interfaces";
 import { APIToGetProductDetailsById } from "@/lib/api/api.service";
 import { handleAddToCart } from "@/lib/shared";
-import { formatKes, productDetailsPageData, supportSectionDataForProduct } from "@/lib/storefront-data";
+import { formatKes, productDetailsPageData } from "@/lib/storefront-data";
+import { useCategoryStore } from "@/stores/categories-store";
 import { useProductStore } from "@/stores/product-store";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -22,6 +21,7 @@ export default function ProductDetailsPage() {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<"description" | "specifications" | "delivery">("description");
   const { products, fetchAllProduct } = useProductStore();
+  const { categories: productCategories } = useCategoryStore();
 
 
   useEffect(() => {
@@ -71,25 +71,54 @@ export default function ProductDetailsPage() {
       .slice(0, 4);
   }, [productDetails, products]);
 
+  const breadcrumbs = [
+    { label: "Home", href: "/" },
+    { label: "Products", href: "/" },
+    { label: productDetails ? productDetails.name : "Product Details" },
+  ]
+
   return (
     <>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <div className="home-category-nav" aria-label="Product categories">
+              <Link
+                href="/"
+                className={!productDetails ? "active" : ""}
+              >
+                All Categories
+              </Link>
+              {productCategories.map((category) => (
+                <Link
+                  key={category.productCategoryID}
+                  href={{
+                    pathname: "/",
+                    query: { categoryId: category.productCategoryID },
+                  }}
+                  className={productDetails?.productCategoryID === category.productCategoryID ? "active" : ""}
+                >
+                  {category.productCategoryName}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {productDetails && (
         <>
-          <InnerBanner
+          {/* <InnerBanner
             title={productDetails.productCategoryName}
             imageSrc={productDetails.primaryImageUrl}
             imageAlt={productDetails.name}
-            breadcrumbs={[
-              { label: "Home", href: "/" },
-              { label: "Products", href: "/product" },
-              { label: productDetails.name }
-            ]}
-          />
-          <section className="productDetailWrapper py-100">
+
+          /> */}
+          <section className="productDetailWrapper py-4">
             <div className="container">
               <div className="product-detail-home-action">
                 <Link href="/" className="btn btn-blue-line">
-                  <span>Back to Home</span> <i className="icon-dot fs-10"></i>
+                  <span>Back to Products</span> <i className="icon-dot fs-10"></i>
                 </Link>
               </div>
               <div className="row">
@@ -126,6 +155,23 @@ export default function ProductDetailsPage() {
 
                 <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                   <div className="product-info-wrapper">
+                    {breadcrumbs && breadcrumbs.length > 0 && (
+                      <nav className="breadcrumb">
+                        <ol className="breadcrumb__list">
+                          {breadcrumbs.map((item, index) => (
+                            <li key={index} className="breadcrumb__item">
+                              {item.href ? (
+                                <Link href={item.href} className="breadcrumb__link">
+                                  {item.label}
+                                </Link>
+                              ) : (
+                                <span className="breadcrumb__link">{item.label}</span>
+                              )}
+                            </li>
+                          ))}
+                        </ol>
+                      </nav>
+                    )}
                     <h1 className="title fs-60 mb-2">{productDetails.name}</h1>
                     <div className="wp-sku-categories">
                       <span className="sku">SKU: {productDetails.itemCode}</span>
@@ -352,7 +398,7 @@ export default function ProductDetailsPage() {
             </section>
           )}
 
-          <SupportSection data={supportSectionDataForProduct} />
+          {/* <SupportSection data={supportSectionDataForProduct} /> */}
         </>)}
     </>
   );
