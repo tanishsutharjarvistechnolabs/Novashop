@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: "NOVASHOP",
     images: [
       {
-        url: "",
+        url: "https://novashop-827u.vercel.app/assets/images/logo.svg",
         width: 1200,
         height: 630,
       },
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "NOVASHOP",
     description:
       "Inspired by innovation and efficiency, NOVASHOP delivers smart solutions and seamless experiences to help businesses grow and serve customers better.",
-    images: [""],
+    images: ["https://novashop-827u.vercel.app/assets/images/logo.svg"],
   },
   icons: {
     icon: [
