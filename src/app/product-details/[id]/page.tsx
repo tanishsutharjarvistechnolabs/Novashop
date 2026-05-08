@@ -8,7 +8,7 @@ import { formatKes, productDetailsPageData } from "@/lib/storefront-data";
 import { useCategoryStore } from "@/stores/categories-store";
 import { useProductStore } from "@/stores/product-store";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 
@@ -22,6 +22,7 @@ export default function ProductDetailsPage() {
   const [activeTab, setActiveTab] = useState<"description" | "specifications" | "delivery">("description");
   const { products, fetchAllProduct } = useProductStore();
   const { categories: productCategories } = useCategoryStore();
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -79,32 +80,34 @@ export default function ProductDetailsPage() {
 
   return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="home-category-nav" aria-label="Product categories">
-              <Link
-                href="/"
-                className={!productDetails ? "active" : ""}
-              >
-                All Categories
-              </Link>
-              {productCategories.map((category) => (
+      <section className="home-category-wrapper">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div className="home-category-nav" aria-label="Product categories">
                 <Link
-                  key={category.productCategoryID}
-                  href={{
-                    pathname: "/",
-                    query: { categoryId: category.productCategoryID },
-                  }}
-                  className={productDetails?.productCategoryID === category.productCategoryID ? "active" : ""}
+                  href="/"
+                  className={!productDetails ? "active" : ""}
                 >
-                  {category.productCategoryName}
+                  All Categories
                 </Link>
-              ))}
+                {productCategories.map((category) => (
+                  <Link
+                    key={category.productCategoryID}
+                    href={{
+                      pathname: "/",
+                      query: { categoryId: category.productCategoryID },
+                    }}
+                    className={productDetails?.productCategoryID === category.productCategoryID ? "active" : ""}
+                  >
+                    {category.productCategoryName}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {productDetails && (
         <>
@@ -172,25 +175,38 @@ export default function ProductDetailsPage() {
                         </ol>
                       </nav>
                     )}
-                    <h1 className="title fs-60 mb-2">{productDetails.name}</h1>
+                    <h1 className="title fs-50 mb-2">{productDetails.name}</h1>
                     <div className="wp-sku-categories">
                       <span className="sku">SKU: {productDetails.itemCode}</span>
-                      <span className="inventory">{productDetailsPageData.inventory}</span>
                     </div>
                     <div className="price-list mb-4">{productDetails.itemRate ? formatKes(productDetails.itemRate) : productDetails.priceInKes ? formatKes(productDetails.priceInKes) : "Price not available"}</div>
+                    <div className="wp-sku-categories">
+                      <span className="inventory">{productDetailsPageData.inventory}</span>
+                    </div>
                     <div className="product-description">
                       <p>{productDetails.shortDescription}</p>
                     </div>
                     <div className="quantity_wrapper">
+                      <span className="fs-20 fw-700 pe-2">Quantity</span>
                       <QuantitySelector defaultValue={1}
                         onChange={(newQty) => setQuantity(newQty)}
                       />
+                    </div>
+                    <div className="quantity_wrapper">
                       <button className="btn btn-blue"
                         onClick={() => {
                           handleAddToCart(productDetails, quantity);
                         }}
                       >
                         <span>Add to Cart</span> <i className="icon-dot fs-10"></i>
+                      </button>
+                      <button className="btn btn-blue-line"
+                        onClick={() => {
+                          handleAddToCart(productDetails, quantity);
+                          router.push("/cart");
+                        }}
+                      >
+                        <span>Buy Now</span> <i className="icon-dot fs-10"></i>
                       </button>
                     </div>
                     {/* <div className="product-policy">
@@ -344,12 +360,12 @@ export default function ProductDetailsPage() {
           </section>
 
           {relatedProducts.length > 0 && (
-            <section className="related-products-section py-100">
+            <section className="related-products-section py-5">
               <div className="container">
                 <div className="shop-section-header">
                   <div>
-                    <p className="shop-product-category mb-2">Recommended</p>
-                    <h2 className="title fs-60 mb-0">You may also like</h2>
+                    {/* <p className="shop-product-category mb-2">Recommended</p> */}
+                    <h2 className="title fs-40 mb-0">You may also like</h2>
                   </div>
                 </div>
 

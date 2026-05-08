@@ -92,7 +92,7 @@ export function Header() {
   return (
     <>
       <header>
-        <div className="container">
+        <div className="container-fluid">
           <div className="col-12">
             <div className="header-inner">
               <Link href="/" className="logo" aria-label="NOVASHOP home">

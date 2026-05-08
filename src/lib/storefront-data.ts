@@ -283,7 +283,7 @@ export const productDetailsPageData: ProductDetailsPageData = {
   ],
   title: "Workstation 6 POS Terminals",
   sku: "IVS-2240",
-  inventory: "In Stock",
+  inventory: "● In Stock",
   price: 38.26,
   description: [
     "Our POS terminals help restaurants skip the expensive, up-front investment in POS hardware. Talk to an Oracle product expert about taking advantage of our US$1 POS hardware offer and switching to Simphony, our cloud-based restaurant management platform.",

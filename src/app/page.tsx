@@ -74,31 +74,33 @@ function HomeContent() {
 
   return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="home-category-nav" aria-label="Product categories">
-              <button
-                type="button"
-                className={selectedCategoryId === null ? "active" : ""}
-                onClick={() => handleCategoryChange(null)}
-              >
-                All Categories
-              </button>
-              {productCategories.map((category) => (
+      <section className="home-category-wrapper">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12">
+              <div className="home-category-nav" aria-label="Product categories">
                 <button
-                  key={category.productCategoryID}
                   type="button"
-                  className={selectedCategoryId === category.productCategoryID ? "active" : ""}
-                  onClick={() => handleCategoryChange(category.productCategoryID)}
+                  className={selectedCategoryId === null ? "active" : ""}
+                  onClick={() => handleCategoryChange(null)}
                 >
-                  {category.productCategoryName}
+                  All Categories
                 </button>
-              ))}
+                {productCategories.map((category) => (
+                  <button
+                    key={category.productCategoryID}
+                    type="button"
+                    className={selectedCategoryId === category.productCategoryID ? "active" : ""}
+                    onClick={() => handleCategoryChange(category.productCategoryID)}
+                  >
+                    {category.productCategoryName}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </div >
+        </div >
+      </section >
       <section className="bannerWrapper">
         <div className="container">
           <div className="row">
@@ -108,11 +110,11 @@ function HomeContent() {
                   <div className="bannerTxt">
                     {/* <p className="fs-20 fw-600 color-white">{homePageData.heroSlides.eyebrow}</p>  */}
                     <h2 className="text-uppercase fw-600 color-white">{homePageData.heroSlides.title}</h2>
-                    <p className="fs-20 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p>
-                    {/* <a href={homePageData.heroSlides.ctaHref} className="btn btn-white mt-4">
+                    <p className="fs-16 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p>
+                    <a href={homePageData.heroSlides.ctaHref} className="btn btn-white mt-4">
                       <span>{homePageData.heroSlides.ctaLabel}</span>
                       <i className="icon-dot fs-10"></i>
-                    </a> */}
+                    </a>
                   </div>
                   <img src={homePageData.heroSlides.imageSrc} alt={homePageData.heroSlides.imageAlt} />
                 </div>
@@ -122,12 +124,12 @@ function HomeContent() {
         </div>
       </section>
 
-      <section id="products" className="shop-layout-section py-100">
+      <section id="products" className="shop-layout-section py-5">
         <div className="container">
           <div className="shop-section-header">
             <div>
               {/* <SectionBadge>{homePageData.servicesIntro.eyebrow}</SectionBadge> */}
-              <h2 className="title fs-60 mb-3">
+              <h2 className="title fs-40 mb-3">
                 {selectedCategory ? selectedCategory.productCategoryName : homePageData.servicesIntro.title}
               </h2>
               {/* <p className="fs-18 fw-500">{homePageData.servicesIntro.description}</p> */}
@@ -159,7 +161,7 @@ function HomeContent() {
                     <img src={product.primaryImageUrl} alt={product.name} />
                   </Link>
                   <div className="shop-product-content">
-                    <p className="shop-product-category">{product.productCategoryName}</p>
+                    {/* <p className="shop-product-category">{product.productCategoryName}</p> */}
                     <h3 className="productTitle">
                       <Link
                         href={`/product-details/${product.id}`}

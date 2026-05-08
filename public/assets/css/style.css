@@ -286,10 +286,10 @@ hr {
     margin: 0
 }
 
-.container {
+/* .container {
     padding: 0 .75em;
     max-width: 87%
-}
+} */
 
 .container.right-container {
     max-width: 87%;
@@ -1689,7 +1689,7 @@ footer .copyRightMain .PolicyMain a:hover {
     width: 86%;
     top: 50%;
     z-index: 10;
-    left: 50%;
+    left: 46%;
     right: 0;
     transform: translate(-50%, -50%);
     color: #fff
@@ -1700,7 +1700,7 @@ footer .copyRightMain .PolicyMain a:hover {
 }
 
 .bannerWrapper .hero-slider .slick-slide .bannerTxt h2 {
-    font-size: 3.5em;
+    font-size: 2.5em;
     width: 60%;
 }
 
@@ -2475,12 +2475,12 @@ footer .copyRightMain .PolicyMain a:hover {
 }
 
 .productDetailWrapper .product-info-wrapper .wp-sku-categories .inventory {
-    font-size: .875em;
+    font-size: 1.25em;
     font-weight: 700;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     color: #23d61f;
-    padding: 4px 10px;
-    background-color: rgba(130, 209, 117, .2);
+    /* padding: 4px 10px; */
+    /* background-color: rgba(130, 209, 117, .2); */
     border-radius: 2.5em;
     display: inline-block
 }
