@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "NOVASHOP",
     description:
       "Inspired by innovation and efficiency, NOVASHOP delivers smart solutions and seamless experiences to help businesses grow and serve customers better.",
-    url: "https://novashop.jarvistechnolabs.com/",
+    url: "https://novashop-827u.vercel.app/",
     siteName: "NOVASHOP",
     images: [
       {
