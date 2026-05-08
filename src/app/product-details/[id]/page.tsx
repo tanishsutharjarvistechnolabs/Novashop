@@ -380,7 +380,7 @@ export default function ProductDetailsPage() {
                         <img src={product.primaryImageUrl} alt={product.name} />
                       </Link>
                       <div className="shop-product-content">
-                        <p className="shop-product-category">{product.productCategoryName}</p>
+                        {/* <p className="shop-product-category">{product.productCategoryName}</p> */}
                         <h3 className="productTitle">
                           <Link
                             href={`/product-details/${product.id}`}
