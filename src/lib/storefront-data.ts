@@ -81,7 +81,7 @@ export const homePageData: HomePageData = {
     title: "POS Hardware, Accessories & Consumables for Hospitality",
     description:
       "Shop workstations, POS printers, cash drawers, paper rolls, ribbons, and employee access cards for hotels, restaurants, cafés, and retail operations.",
-    imageSrc: "/assets/images/banner-img1.jpg",
+    imageSrc: "/assets/images/Banner_2.webp",
     imageAlt: "Workstation hero banner",
     ctaLabel: "Shop Now",
     ctaHref: "#products",
