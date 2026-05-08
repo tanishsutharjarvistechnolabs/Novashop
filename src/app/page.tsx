@@ -19,24 +19,30 @@ export default function Home() {
   );
   const visibleProducts = selectedCategoryId
     ? products.filter((product) => product.productCategoryID === selectedCategoryId)
-    : products; 
+    : products;
   const featuredProducts = visibleProducts.slice(0, 8);
 
   return (
     <>
       <section className="bannerWrapper">
-        <div className="hero-slider">
-          <div>
-            <div className="bannerTxt">
-              <p className="fs-20 fw-600 color-white">{homePageData.heroSlides.eyebrow}</p>
-              <h2 className="text-uppercase fw-600 color-white">{homePageData.heroSlides.title}</h2>
-              <p className="fs-28 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p>
-              <a href={homePageData.heroSlides.ctaHref} className="btn btn-white mt-4">
-                <span>{homePageData.heroSlides.ctaLabel}</span>
-                <i className="icon-dot fs-10"></i>
-              </a>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="hero-slider">
+                <div>
+                  <div className="bannerTxt">
+                    <p className="fs-20 fw-600 color-white">{homePageData.heroSlides.eyebrow}</p>
+                    <h2 className="text-uppercase fw-600 color-white">{homePageData.heroSlides.title}</h2>
+                    {/* <p className="fs-28 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p> */}
+                    {/* <a href={homePageData.heroSlides.ctaHref} className="btn btn-white mt-4">
+                      <span>{homePageData.heroSlides.ctaLabel}</span>
+                      <i className="icon-dot fs-10"></i>
+                    </a> */}
+                  </div>
+                  <img src={homePageData.heroSlides.imageSrc} alt={homePageData.heroSlides.imageAlt} />
+                </div>
+              </div>
             </div>
-            <img src={homePageData.heroSlides.imageSrc} alt={homePageData.heroSlides.imageAlt} />
           </div>
         </div>
       </section>

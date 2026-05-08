@@ -1666,19 +1666,21 @@ footer .copyRightMain .PolicyMain a:hover {
 
 .bannerWrapper .hero-slider {
     position: relative;
-    margin: 0
+    margin: 30px 0 0 0;
 }
 
 .bannerWrapper .hero-slider .slick-slide {
     position: relative;
-    height: 90vh;
-    background: #ccc
+    height: 45vh;
+    background: #ccc;
+    border-radius: 16px;
 }
 
 .bannerWrapper .hero-slider .slick-slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover
+    object-fit: cover;
+    border-radius: 16px;
 }
 
 .bannerWrapper .hero-slider .slick-slide .bannerTxt {
@@ -1698,7 +1700,7 @@ footer .copyRightMain .PolicyMain a:hover {
 }
 
 .bannerWrapper .hero-slider .slick-slide .bannerTxt h2 {
-    font-size: 8.75em
+    font-size: 5em
 }
 
 .bannerWrapper .hero-slider .slick-dots {
