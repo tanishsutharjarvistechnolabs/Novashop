@@ -1700,7 +1700,8 @@ footer .copyRightMain .PolicyMain a:hover {
 }
 
 .bannerWrapper .hero-slider .slick-slide .bannerTxt h2 {
-    font-size: 5em
+    font-size: 3.5em;
+    width: 60%;
 }
 
 .bannerWrapper .hero-slider .slick-dots {

@@ -31,9 +31,9 @@ export default function Home() {
               <div className="hero-slider">
                 <div>
                   <div className="bannerTxt">
-                    <p className="fs-20 fw-600 color-white">{homePageData.heroSlides.eyebrow}</p>
+                    {/* <p className="fs-20 fw-600 color-white">{homePageData.heroSlides.eyebrow}</p>  */}
                     <h2 className="text-uppercase fw-600 color-white">{homePageData.heroSlides.title}</h2>
-                    {/* <p className="fs-28 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p> */}
+                    <p className="fs-20 fw-600 color-white col-md-6">{homePageData.heroSlides.description}</p>
                     {/* <a href={homePageData.heroSlides.ctaHref} className="btn btn-white mt-4">
                       <span>{homePageData.heroSlides.ctaLabel}</span>
                       <i className="icon-dot fs-10"></i>

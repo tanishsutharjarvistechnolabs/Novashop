@@ -78,9 +78,9 @@ export const homePageData: HomePageData = {
   heroSlides: {
     id: "workstation-main",
     eyebrow: "Power Your Restaurant. Elevate Your Hotel.",
-    title: "Workstation",
+    title: "POS Hardware, Accessories & Consumables for Hospitality",
     description:
-      "Novashop is East Africa's destination for professional POS hardware and accessories — purpose-built for hotels, restaurants, and hospitality businesses that demand reliability at every service touchpoint.",
+      "Shop workstations, POS printers, cash drawers, paper rolls, ribbons, and employee access cards for hotels, restaurants, cafés, and retail operations.",
     imageSrc: "/assets/images/banner-img1.jpg",
     imageAlt: "Workstation hero banner",
     ctaLabel: "Shop Now",
