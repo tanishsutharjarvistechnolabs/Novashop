@@ -49,7 +49,7 @@ export function CartPageContent({ data }: CartPageContentProps) {
                     <div className="w-100 d-flex justify-content-start mt-4">
                       <button
                         className="btn btn-blue w-100"
-                        onClick={() => router.push("/product")}
+                        onClick={() => router.push("/")}
                       >
                         <span>View Products</span> <i className="icon-dot fs-10"></i>
                       </button>

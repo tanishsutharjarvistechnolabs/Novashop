@@ -352,9 +352,9 @@ export default function ProductDetailsPage() {
                   </div>
                 </div>
 
-                <div className="col-12 pt-100">
+                {/* <div className="col-12 pt-100">
                   <hr />
-                </div>
+                </div> */}
               </div>
             </div>
           </section>

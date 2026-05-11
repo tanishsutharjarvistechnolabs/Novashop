@@ -44,7 +44,7 @@ const PUBLIC_ROUTES = [
 ];
 
 const SKIP_LOADER_ROUTES = [
-  "/Auth/generatepublictoken",
+  // "/Auth/generatepublictoken",
   "/Mpesa/InitiatePayment",
   "/Mpesa/TransactionByOrder"
 ];

@@ -521,8 +521,8 @@ h6 {
     font-size: 1.125em;
     font-family: "Barlow Condensed", sans-serif;
     font-weight: 700;
-    text-transform: uppercase;
-    font-style: italic;
+    text-transform: capitalize;
+    /* font-style: italic; */
     min-height: auto;
     overflow: hidden;
     outline: 0;
