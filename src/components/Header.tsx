@@ -93,52 +93,53 @@ export function Header() {
     <>
       <header>
         <div className="container-fluid">
-          <div className="col-12">
-            <div className="header-inner">
-              <Link href="/" className="logo" aria-label="NOVASHOP home">
-                <img src="/assets/images/logo.svg" alt="NOVASHOP" />
-              </Link>
-
-              <nav>
-                <Link href="/" className="nav-link">
-                  Home
+          <div className="row">
+            <div className="col-12">
+              <div className="header-inner">
+                <Link href="/" className="logo" aria-label="NOVASHOP home">
+                  <img src="/assets/images/logo.svg" alt="NOVASHOP" />
                 </Link>
-                <a href="https://novacom.co.ke/about-us/" className="nav-link" target="_blank" >
-                  About Us
-                </a>
 
-                <div className="nav-link has-dropdown">
-                  Products <span className="chevron" />
-                  <div className="dropdown">
-                    {productCategories.length === 0 ? (
-                      <p className="text-muted fw-500 ms-1">No categories available</p>
-                    ) : (
-                      productCategories.map((category) => (
-                        <Link key={category.productCategoryID} href={{
-                          pathname: "/",
-                          query: { categoryId: category.productCategoryID },
-                        }} className="dropdown-link">
-                          {category.productCategoryName}
-                        </Link>
-                      ))
-                    )}
+                <nav>
+                  <Link href="/" className="nav-link">
+                    Home
+                  </Link>
+                  <a href="https://novacom.co.ke/about-us/" className="nav-link" target="_blank" >
+                    About Us
+                  </a>
+
+                  <div className="nav-link has-dropdown">
+                    Products <span className="chevron" />
+                    <div className="dropdown">
+                      {productCategories.length === 0 ? (
+                        <p className="text-muted fw-500 ms-1">No categories available</p>
+                      ) : (
+                        productCategories.map((category) => (
+                          <Link key={category.productCategoryID} href={{
+                            pathname: "/",
+                            query: { categoryId: category.productCategoryID },
+                          }} className="dropdown-link">
+                            {category.productCategoryName}
+                          </Link>
+                        ))
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <a href="https://novacom.co.ke/contact-us/" className="nav-link" target="_blank">
-                  Contact Us
-                </a>
-              </nav>
+                  <a href="https://novacom.co.ke/contact-us/" className="nav-link" target="_blank">
+                    Contact Us
+                  </a>
+                </nav>
 
-              <div className="nav-icons">
-                {/* <button
+                <div className="nav-icons">
+                  {/* <button
                   className="icon-btn"
                   type="button"
                 >
                   <i className="icon-search" />
                 </button> */}
 
-                {/* {isLoggedIn ? (
+                  {/* {isLoggedIn ? (
                   <button
                     className="icon-btn"
                     aria-label="Logout"
@@ -173,56 +174,57 @@ export function Header() {
                   </button>
                 )} */}
 
-                <div className="nav-link has-dropdown" style={{ position: "relative" }}>
-                  <button className="icon-btn" aria-label="Account" type="button">
-                    <i className="icon-user" />
-                  </button>
-                  <div className="dropdown">
-                    {mounted && isLoggedIn ? (
-                      <>
-                        <Link href="/profile" className="dropdown-link">
-                          Profile
-                        </Link>
+                  <div className="nav-link has-dropdown" style={{ position: "relative" }}>
+                    <button className="icon-btn" aria-label="Account" type="button">
+                      <i className="icon-user" />
+                    </button>
+                    <div className="dropdown">
+                      {mounted && isLoggedIn ? (
+                        <>
+                          <Link href="/profile" className="dropdown-link">
+                            Profile
+                          </Link>
+                          <a
+                            className="dropdown-link"
+                            type="button"
+                            onClick={handleLogout}
+                            style={{ textAlign: "left", width: "100%", background: "none", border: "none" }}
+                          >
+                            Logout
+                          </a>
+                        </>
+                      ) : (
                         <a
                           className="dropdown-link"
+                          data-bs-toggle="modal"
+                          data-bs-target="#LoginModal"
                           type="button"
-                          onClick={handleLogout}
-                          style={{ textAlign: "left", width: "100%", background: "none", border: "none" }}
                         >
-                          Logout
+                          Login
                         </a>
-                      </>
-                    ) : (
-                      <a
-                        className="dropdown-link"
-                        data-bs-toggle="modal"
-                        data-bs-target="#LoginModal"
-                        type="button"
-                      >
-                        Login
-                      </a>
-                    )}
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="cart-wrap">
+                    <Link className="icon-btn" aria-label="Cart" href="/cart">
+                      <i className="icon-cart-bag" />
+                    </Link>
+                    <span className="cart-badge">{mounted ? cartItemCount : 0}</span>
                   </div>
                 </div>
 
-                <div className="cart-wrap">
-                  <Link className="icon-btn" aria-label="Cart" href="/cart">
-                    <i className="icon-cart-bag" />
-                  </Link>
-                  <span className="cart-badge">{mounted ? cartItemCount : 0}</span>
-                </div>
+                <button
+                  className="hamburger"
+                  id="hamburger"
+                  aria-label="Toggle menu"
+                  type="button"
+                >
+                  <span />
+                  <span />
+                  <span />
+                </button>
               </div>
-
-              <button
-                className="hamburger"
-                id="hamburger"
-                aria-label="Toggle menu"
-                type="button"
-              >
-                <span />
-                <span />
-                <span />
-              </button>
             </div>
           </div>
         </div>
